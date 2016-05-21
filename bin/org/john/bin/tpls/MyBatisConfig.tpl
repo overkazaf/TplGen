@@ -1,13 +1,15 @@
-#指定读取的文件夹
-modelFolder=./models
-tplFolder=./tpls
-entityFolder=entity
-controllerFolder=controller
-mapperFolder=mapper
-serviceFolder=service
-serviceImplFolder=service/impl
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<properties>
+		<property name="dialect" value="mysql" />
+	</properties>
+	<settings>
+		<setting name="safeRowBoundsEnabled" value="false"></setting>
+		<setting name="useGeneratedKeys" value="true"></setting>
+	</settings>
+	<typeAliases>
+		{{Aliases}}
+	</typeAliases>
 
-#指定输出的文件夹
-target=src/main/java
-targetMyBatisConfig=src/main/resources
-targetMyBatisMapperFolder=src/main/resources/config
+</configuration>

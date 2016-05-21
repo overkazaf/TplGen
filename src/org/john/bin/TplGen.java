@@ -1,13 +1,11 @@
 package org.john.bin;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -18,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-import java.util.StringTokenizer;
 
 import org.john.bin.parser.TplCompiler;
 
@@ -213,10 +210,9 @@ public class TplGen {
 		List<String> tplList = this.tplList;
 		Map<String, Map<String, String>> modelMap = this.modelMap;
 		Map<String, String> tplMap = this.tplMap;
-		List<String> resultList = new ArrayList<String>();
 		for (String modelName : modelList) {
 			for (String tplName : tplList) {
-				String targetTpl = this.compiler.compile(modelName, modelMap.get(modelName), tplName, tplMap.get(tplName));
+				String targetTpl = this.compiler.compile(modelName, modelMap.get(modelName), tplName, tplMap.get(tplName), modelList);
 				Map<String, String> map = compiledCache.get(modelName);
 				if (map == null) {
 					map = new HashMap<String, String>();
@@ -267,25 +263,68 @@ public class TplGen {
 	}
 	public void write2DiskByDetail (String model, String tplName, String compiledTpl) {
 		String fileName = "";
+		
+		System.out.println("Writing "+ model+ " to disk...\n");
+		System.out.println(compiledTpl + "\n");
 		switch (tplName.toLowerCase()) {
 			case "entity":
-				System.out.println("Writing "+ model+ " to disk...\n");
-				System.out.println(compiledTpl + "\n");
 				fileName = pathManager.getEntityPath() + File.separator + model + ".java";
-				
-			break;
+				break;
+			case "mapper":
+				fileName = pathManager.getMapperPath() + File.separator + model + "Mapper.java";
+				break;
+			case "service":
+				fileName = pathManager.getServicePath() + File.separator + model + "Service.java";
+				break;
+			case "serviceimpl":
+				fileName = pathManager.getServiceImplPath() + File.separator + model + "ServiceImpl.java";
+				break;
+			case "mybatismapper":
+				fileName = pathManager.getMyBatisMapperPath() + File.separator + model + "Mapper.xml";
+				break;
+			case "mybatisconfig":
+				fileName = pathManager.getMyBatisConfigPath() + File.separator + "mybatis-config.xml";
+				break;
 			default:;
 		}
 		
-		File file = new File(fileName);
-		try {
-			OutputStream os = new FileOutputStream(file);
-			os.write(compiledTpl.getBytes());
-			os.close();
-			System.out.println(fileName + " has been successfully written");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		WriteThread thread = new WriteThread(fileName, compiledTpl);
+		thread.start();
+	}
+	
+	class WriteThread extends Thread {
+		private String taskName;
+		private String tpl;
+		
+		public WriteThread (String taskName, String tpl) {
+			this.taskName = taskName;
+			this.tpl = tpl;
+		}
+		public void run () {
+			try {
+				OutputStream os = new FileOutputStream(this.getTaskName());
+				os.write(this.getTpl().getBytes());
+				os.close();
+				System.out.println(this.getTaskName() + " has been successfully written");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		public void setTaskName (String task) {
+			this.taskName = task;
+		}
+		
+		public String getTaskName () {
+			return taskName;
+		}
+		
+		public void setTpl (String tpl) {
+			this.tpl = tpl;
+		}
+		
+		public String getTpl () {
+			return tpl;
 		}
 	}
 

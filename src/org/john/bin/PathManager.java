@@ -88,6 +88,9 @@ public class PathManager {
 		this.mapperPackagePath = this.config.get("packageSrc") + (this.getTargetPrefix() + File.separator + this.config.get("mapperFolder")).replace("/", File.separator).replace(File.separator, ".");
 		
 		
+		this.myBatisConfigPath = this.config.get("packageRes") + (this.config.get("myBatisMapperFolder")).replace("/", File.separator).replace(File.separator, ".");
+		
+		
 	}
 	
 	

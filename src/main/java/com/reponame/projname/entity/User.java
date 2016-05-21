@@ -1,6 +1,5 @@
 package main.java.com.reponame.projname.entity;
 
-import java.lang.*;
 import java.util.*;
 
 public class User {	
@@ -58,5 +57,4 @@ public void setVisitDate (Date visitdate) {
 public void setPassword (String password) {
   this.password = password;
 }
-
 	}

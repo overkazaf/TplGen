@@ -1,6 +1,6 @@
 package org.john.bin.parser;
 
-import java.io.File;
+import java.util.List;
 import java.util.Map;
 
 import org.john.bin.PathManager;
@@ -13,6 +13,7 @@ public abstract class ParserBase {
 	private Map<String, String> modelMap;
 	private Map<String, String> configMap;
 	private PathManager pathManager;
+	private List<String> modelList;
 	
 	public String getTemplate() {
 		return template;
@@ -42,6 +43,7 @@ public abstract class ParserBase {
 		System.out.println("Override the parse function");
 	};
 	public boolean checkTemplate() {
+		System.out.println("Should be override in subclass for compilation checking");
 		return false;
 	}
 	
@@ -75,5 +77,13 @@ public abstract class ParserBase {
 
 	public void setModelName(String modelName) {
 		this.modelName = modelName;
+	}
+
+	public List<String> getModelList() {
+		return modelList;
+	}
+
+	public void setModelList(List<String> modelList) {
+		this.modelList = modelList;
 	}
 }

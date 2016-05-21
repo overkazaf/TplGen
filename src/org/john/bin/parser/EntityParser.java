@@ -14,7 +14,7 @@ public class EntityParser extends ParserBase{
 		
 		parsedTemplate = parsedTemplate.replace("{{packages}}", "package " + pathManager.getEntityPackagePath() + ";\n\n");
 		
-		parsedTemplate = parsedTemplate.replace("{{imports}}", "import java.lang.*;\nimport java.util.*;\n\n");
+		parsedTemplate = parsedTemplate.replace("{{imports}}", "import java.util.*;\n\n");
 
 		parsedTemplate = parsedTemplate.replace("{{Entity}}", this.getModelName());
 		
@@ -24,7 +24,6 @@ public class EntityParser extends ParserBase{
 		
 		parsedTemplate = parsedTemplate.replace("{{Getters}}", generateSetters());
 		
-		System.out.println(parsedTemplate);
 		this.setParsedTemplate(parsedTemplate);
 	}
 	

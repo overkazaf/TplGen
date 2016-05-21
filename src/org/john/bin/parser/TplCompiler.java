@@ -1,5 +1,6 @@
 package org.john.bin.parser;
 
+import java.util.List;
 import java.util.Map;
 
 import org.john.bin.PathManager;
@@ -24,7 +25,7 @@ public class TplCompiler {
 		return "";
 	}
 
-	public static String compile(String model, Map<String, String> modelMap, String tplName, String tpl) {
+	public static String compile(String model, Map<String, String> modelMap, String tplName, String tpl, List<String> list) {
 		
 		System.out.println("\n");
 		System.out.println("\n===========================================================");
@@ -33,11 +34,11 @@ public class TplCompiler {
 		System.out.println("\n===========================================================");
 		System.out.println("\n");
 		
-		return compileStretagy(tplName, model, modelMap, tpl);
+		return compileStretagy(tplName, model, modelMap, tpl, list);
 	}
 	
 	
-	public static String compileStretagy (String strategy, String model, Map<String, String> modelMap, String tpl) {
+	public static String compileStretagy (String strategy, String model, Map<String, String> modelMap, String tpl, List<String> modelList) {
 		String compiledTpl = "";
 		try {
 			ParserBase parser = (ParserBase) Class.forName("org.john.bin.parser."+ strategy + "Parser").newInstance();
@@ -48,6 +49,7 @@ public class TplCompiler {
 			parser.setPathManager(new PathManager(parsedConfigurationMap));
 			parser.setTplName(strategy);
 			parser.setModelName(model);
+			parser.setModelList(modelList);
 			parser.parse();
 			
 			
