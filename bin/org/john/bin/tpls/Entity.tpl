@@ -1,16 +1,12 @@
-{{packages}};
+{{packages}}
 
-{{imports}};
+{{imports}}
 
 public class {{Entity}} {
-	{{LOOP}}
-		private {{propType}} {{propName}};
-	{{/LOOP}}
-	
+	{{Properties}}
 	
 	{{Setters}}
 	
 	{{Getters}}
 	
-	{{toString}}
 }
