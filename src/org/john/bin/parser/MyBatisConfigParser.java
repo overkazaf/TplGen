@@ -15,7 +15,7 @@ public class MyBatisConfigParser extends ParserBase{
 		StringBuilder sb = new StringBuilder();
 		List<String> list = this.getModelList();
 		for (String entity : list) {
-			sb.append("<typeAlias alias=\""+ ((entity.charAt(0)+"").toLowerCase() + entity.substring(1)) +"\" type=\""+ this.getPathManager().getEntityPackagePath() + "." + this.getModelName() +"\" />\n");
+			sb.append("<typeAlias alias=\""+ ((entity.charAt(0)+"").toLowerCase() + entity.substring(1)) +"\" type=\""+ this.getPathManager().getEntityPackagePath() + "." + entity +"\" />\n");
 		}
 		
 		return sb.toString();

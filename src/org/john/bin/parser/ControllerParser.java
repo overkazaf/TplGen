@@ -28,11 +28,15 @@ public class ControllerParser extends ParserBase{
 		StringBuilder sb = new StringBuilder();
 		
 		sb.append("import java.util.*;\n");
-		sb.append("import "+ this.getPathManager().getEntityPackagePath() + "." + this.getModelName() +";\n");
 		sb.append("import "+ this.getPathManager().getServicePackagePath() + "." + this.getModelName() +"Service;\n");
 		// spring×¢½â
 		sb.append("import org.springframework.beans.factory.annotation.Autowired;\n");
 		sb.append("import org.springframework.stereotype.Controller;\n");
+		sb.append("import javax.annotation.Resource;\n");
+		sb.append("import org.springframework.web.bind.annotation.RequestMapping;\n");
+		sb.append("import org.springframework.web.bind.annotation.RequestMethod;\n");
+		sb.append("import org.springframework.web.bind.annotation.RequestParam;\n");
+		sb.append("import javax.servlet.http.HttpServletRequest;\n");
 		return sb.toString();
 	}
 	
@@ -45,7 +49,7 @@ public class ControllerParser extends ParserBase{
 			if (sb.length() > 0) {
 				sb.append(", ");
 			}
-			sb.append("@RequestParam " + key);
+			sb.append("@RequestParam " + map.get(key) + " " + key);
 		}
 		
 		return sb.toString();

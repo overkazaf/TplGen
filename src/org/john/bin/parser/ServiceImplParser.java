@@ -29,7 +29,6 @@ public class ServiceImplParser extends ParserBase{
 		// spring×¢½â
 		sb.append("import org.springframework.beans.factory.annotation.Autowired;\n");
 		sb.append("import org.springframework.stereotype.Service;\n");
-		sb.append("import org.springframework.stereotype.Resource;\n");
 		return sb.toString();
 	}
 	

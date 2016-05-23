@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-import org.john.bin.parser.TplCompiler;
+import org.john.bin.compiler.TplCompiler;
 import org.john.bin.utils.PathManager;
 
 public class TplGen {
@@ -102,7 +102,14 @@ public class TplGen {
 	}
 	
 	/**
-	 * step3. 获取每一个模型的定义， 存入modelMap这一数据结构中
+	 * step 3  初始化路径管理器对象
+	 */
+	public void initPathManager () {
+		this.pathManager = new PathManager(this.parsedConfigurationMap);
+	}
+	
+	/**
+	 * step 4.0 获取每一个模型的定义， 存入modelMap这一数据结构中
 	 */
 	public void initModels() {
 		ArrayList<String> modelList = new ArrayList<String>();
@@ -146,13 +153,6 @@ public class TplGen {
 		this.modelMap = modelMap;
 	}
 	
-	/**
-	 * 4.0 初始化路径管理器对象
-	 */
-	public void initPathManager () {
-		this.pathManager = new PathManager(this.parsedConfigurationMap);
-	}
-
 	/**
 	 * step 4.1 初始化模板代码，并存入缓存中
 	 * 
@@ -230,7 +230,7 @@ public class TplGen {
 	 * 
 	 * @return
 	 */
-	public Boolean doCompileTask() {
+	public Boolean execCompileTask() {
 		List<String> modelList = this.modelList;
 		List<String> tplList = this.tplList;
 		Map<String, Map<String, String>> modelMap = this.modelMap;
@@ -321,7 +321,7 @@ public class TplGen {
 				OutputStream os = new FileOutputStream(this.getTaskName());
 				os.write(this.getTpl().getBytes());
 				os.close();
-				System.out.println(this.getTaskName() + " has been successfully written");
+				System.out.println(this.getTaskName() + " has been successfully written to target folder");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -355,26 +355,23 @@ public class TplGen {
 		// 解析基础配置的properties，以key-value形式存储
 		this.parseConfig();
 		
-		// 初始化用户自定义的models
-		this.initModels();
-		
-		// 初始化路径管理器，默认模板，构建目标文件夹，实例化编译器对象等
+		// 初始化路径管理器
 		this.initPathManager();
+		
+		this.initModels();
 		this.initTemplate();
 		this.initFolders();
 		this.initTplCompiler();
 
-		// 同步执行编译任务
-		this.doCompileTask();
+		// 根据数据models编译模板
+		this.execCompileTask();
 
 		// 写本地磁盘
 		this.write2Disk();
 
 	};
 
-
 	public static void main(String[] args) {
-		// 测试的基础配置properties路径
 		String test = "E:\\Workspace\\Handson\\src\\org\\john\\bin\\test.properties";
 		TplGen tplGen = new TplGen(test);
 		tplGen.exec();

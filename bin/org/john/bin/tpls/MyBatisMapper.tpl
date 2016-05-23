@@ -19,8 +19,6 @@
 			<include refid="Base_Column_List" />
 		FROM
 		{{TablePrefix}}{{Entity}}
-		WHERE
-		id = #{{{EntityPrimaryKey}}}
 	</select>
 	
 	<insert id="add{{Entity}}" parameterType="{{entity}}" useGeneratedKeys="true" keyProperty="{{EntityPrimaryKey}}">
@@ -39,7 +37,7 @@
 	<insert id="addAll{{Entity}}s" parameterType="java.util.List">  
 	    INSERT 
 	    INTO 
-	    {{{TablePrefix}}{{Entity}}} 
+	    {{TablePrefix}}{{Entity}}
 	    (  
 			<include refid="Base_Column_List" />  
 		) 

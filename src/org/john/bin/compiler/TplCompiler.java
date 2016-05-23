@@ -1,8 +1,9 @@
-package org.john.bin.parser;
+package org.john.bin.compiler;
 
 import java.util.List;
 import java.util.Map;
 
+import org.john.bin.parser.ParserBase;
 import org.john.bin.utils.PathManager;
 
 /**
@@ -35,7 +36,7 @@ public class TplCompiler {
 		try {
 			// 动态生成解析器实例对象
 			// 每个对象都是继承自ParserBaser类的子类实例，需要重写基类的parse和checkTemplate方法
-			ParserBase parser = (ParserBase) Class.forName("org.john.bin.parser."+ strategy + "Parser").newInstance();
+			ParserBase parser = (ParserBase) Class.forName( parsedConfigurationMap.get("pkgPrefix").replace("/", ".") + ".parser."+ strategy + "Parser").newInstance();
 			
 			// 为解析器准备相应的数据结构
 			parser.setTemplate(tpl);
