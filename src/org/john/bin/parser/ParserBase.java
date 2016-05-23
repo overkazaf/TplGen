@@ -3,7 +3,7 @@ package org.john.bin.parser;
 import java.util.List;
 import java.util.Map;
 
-import org.john.bin.PathManager;
+import org.john.bin.utils.PathManager;
 
 public abstract class ParserBase {
 	private String template;

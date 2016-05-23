@@ -23,6 +23,11 @@ public class {{Entity}}ServiceImpl implements {{Entity}}Service {
 	};
 	
 	@Override
+	public boolean updateAll{{Entity}}s (List<{{Entity}}> entityList) throws Exception {
+		return {{entity}}Mapper.updateAll{{Entity}}s(entityList) == entityList.size();
+	};
+	
+	@Override
 	public boolean remove{{Entity}}ById (String id) throws Exception {
 		return {{entity}}Mapper.remove{{Entity}}ById(id) != 0;
 	};

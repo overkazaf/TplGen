@@ -1,84 +1,94 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="{{MapperPackage}}.{{Entity}}Mapper">
-
-	<insert id="add{{Entity}}" parameterType="{{entity}}" useGeneratedKeys="true" keyProperty="{{EntityKey}}">
-	INSERT
-	INTO
-	{{EntityTableName}}
-	(
-		advertiser_id,
-		display,
-		alias,
-		field_name,
-		datatype,
-		created_by,
-		created_date,
-		modified_by,
-		modified_date
-	)
-	VALUES
-	(
-		#{advertiserId,jdbcType=INTEGER},
-		#{display,jdbcType=VARCHAR},
-		#{alias,jdbcType=VARCHAR},
-		#{fieldName,jdbcType=VARCHAR},
-		#{datatype,jdbcType=VARCHAR},
-		#{createdBy},
-		#{createdDate},
-		#{modifiedBy},
-		#{modifiedDate}
-	)
-	</insert>
+	<sql id="Base_Column_List"> 
+		{{EntityTableKeys}}
+	</sql>
 	
-	<delete id="remove{{Entity}}ById" parameterType="int">
-		DELETE
-		FROM
-		{{EntityTableName}}
-		WHERE
-		{{entity}}_id = #{id};
-	</delete>
-	
-	
-	<select id="is{{Entity}}Exists" parameterType="int" resultType="int">
+	<select id="find{{Entity}}ById" parameterType="int" resultType="{{entity}}">
 		SELECT
-		COUNT(*)
+			<include refid="Base_Column_List" />
 		FROM
-		{{Entity}}
+		{{TablePrefix}}{{Entity}}
 		WHERE
-		{{entity}}_id = #{id}
+		id = #{{{EntityPrimaryKey}}}
 	</select>
 	
 	<select id="findAll{{Entity}}s" parameterType="int" resultType="{{entity}}">
 		SELECT
-		id,
-		advertiser_id advertiserId,
-		display,
-		alias,
-		field_name fieldName,
-		datatype
+			<include refid="Base_Column_List" />
 		FROM
-		{{EntityTableName}}
+		{{TablePrefix}}{{Entity}}
 		WHERE
-		{{entity}}_id = #{id}
+		id = #{{{EntityPrimaryKey}}}
 	</select>
+	
+	<insert id="add{{Entity}}" parameterType="{{entity}}" useGeneratedKeys="true" keyProperty="{{EntityPrimaryKey}}">
+	INSERT
+	INTO
+	{{TablePrefix}}{{Entity}}
+	(
+		<include refid="Base_Column_List" />
+	)
+	VALUES
+	(
+		{{EntityKeys}}
+	)
+	</insert>
+	
+	<insert id="addAll{{Entity}}s" parameterType="java.util.List">  
+	    INSERT 
+	    INTO 
+	    {{{TablePrefix}}{{Entity}}} 
+	    (  
+			<include refid="Base_Column_List" />  
+		) 
+		VALUES 
+		<foreach collection="entityList" item="item" index="index" open="(" separator="," close=")" >  
+	    	{{EntityKeys}}
+		</foreach>
+	</insert>  
+	
+	<delete id="remove{{Entity}}ById" parameterType="int">
+		DELETE
+		FROM
+		{{TablePrefix}}{{Entity}}
+		WHERE
+		{{EntityTablePrimaryKey}} = #{{{EntityPrimaryKey}}}
+	</delete>
+	
+	<delete id="removeAll{{Entity}}s" parameterType="java.util.List">
+		DELETE
+		FROM
+		{{TablePrefix}}{{Entity}}
+		WHERE
+		id
+		IN
+		<foreach item="item" index="index" collection="idList" open="(" separator="," close=")">
+			#{item.id}
+		</foreach>
+	</delete>
 	
 	
 	<update id="update{{Entity}}" parameterType="{{entity}}">
 		UPDATE
-		{{EntityTableName}}
+		{{TablePrefix}}{{Entity}}
 		SET
-		display = #{display,jdbcType=VARCHAR},
-		alias = #{alias,jdbcType=VARCHAR},
-		datatype = #{datatype,jdbcType=VARCHAR},
-		created_by = #{createdBy},
-		created_date = #{createdDate},
-		modified_by = #{modifiedBy},
-		modified_date = #{modifiedDate}
+		{{EntityUpdateArea}}
 		WHERE
-		advertiser_id = #{advertiserId,jdbcType=INTEGER}
-		AND
-		field_name = #{fieldName,jdbcType=VARCHAR}
-		
+		id = #{{{EntityPrimaryKey}}}
+	</update>
+	
+	<update id="updateAll{{Entity}}s" parameterType="java.util.List">
+		UPDATE
+		{{TablePrefix}}{{Entity}}
+		SET
+		{{EntityUpdateArea}}
+		WHERE
+		id 
+		IN
+		<foreach item="item" index="index" collection="idList" open="(" separator="," close=")">
+			#{item.id}
+		</foreach>
 	</update>
 </mapper>

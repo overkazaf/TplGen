@@ -1,4 +1,4 @@
-package org.john.bin;
+package org.john.bin.utils;
 
 import java.io.File;
 import java.util.Map;
@@ -77,7 +77,10 @@ public class PathManager {
 		this.mapperPath = this.getSrcPath() + File.separator + this.getTargetPrefix() + File.separator + this.config.get("mapperFolder").replace("/", File.separator);
 		
 		this.myBatisMapperPath = this.getResPath() + File.separator + this.getTargetPrefix() + File.separator + this.config.get("myBatisMapperFolder").replace("/", File.separator);
-		this.myBatisConfigPath = this.getResPath() + File.separator + this.config.get("myBatisConfigFolder").replace("/", File.separator);
+		this.myBatisConfigPath = this.getResPath() + File.separator + this.getTargetPrefix() + File.separator + this.config.get("myBatisConfigFolder").replace(".", File.separator).replace("/", File.separator);
+		
+		
+		System.out.println("myBatisConfigPathmyBatisConfigPathmyBatisConfigPath    "+ myBatisConfigPath);
 	}
 	
 	public void initPackagePath () {
@@ -88,9 +91,10 @@ public class PathManager {
 		this.mapperPackagePath = this.config.get("packageSrc") + (this.getTargetPrefix() + File.separator + this.config.get("mapperFolder")).replace("/", File.separator).replace(File.separator, ".");
 		
 		
-		this.myBatisConfigPath = this.config.get("packageRes") + (this.config.get("myBatisMapperFolder")).replace("/", File.separator).replace(File.separator, ".");
+		//this.myBatisConfigPath = this.config.get("packageRes") + (this.config.get("myBatisConfigFolder")).replace("/", File.separator).replace(File.separator, ".");
+		//this.myBatisMapperPath = this.config.get("packageRes") + (this.config.get("myBatisMapperFolder")).replace("/", File.separator).replace(File.separator, ".");
 		
-		
+		System.out.println("myBatisConfigPath =====> " + myBatisConfigPath);
 	}
 	
 	

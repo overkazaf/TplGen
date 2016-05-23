@@ -3,7 +3,7 @@ package org.john.bin.parser;
 import java.util.List;
 import java.util.Map;
 
-import org.john.bin.PathManager;
+import org.john.bin.utils.PathManager;
 
 public class TplCompiler {
 	private static Map<String, String> parsedConfigurationMap;

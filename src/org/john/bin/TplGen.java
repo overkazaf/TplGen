@@ -18,6 +18,7 @@ import java.util.Properties;
 import java.util.Set;
 
 import org.john.bin.parser.TplCompiler;
+import org.john.bin.utils.PathManager;
 
 public class TplGen {
 	private String propertiesName;
@@ -62,7 +63,6 @@ public class TplGen {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	};
 
 	/**
@@ -147,7 +147,7 @@ public class TplGen {
 		File tplDir = new File(tplPath);
 		String[] tpls = tplDir.list();
 		for (String tplName : tpls) {
-			StringBuffer sb = new StringBuffer();
+			StringBuilder sb = new StringBuilder();
 			try {
 				File tempFile = new File(tplDir + File.separator + tplName);
 				FileReader isr = new FileReader(tempFile);
@@ -186,6 +186,7 @@ public class TplGen {
 		System.out.println("Initializign path list:\n");
 		for (String path : paths) {
 			File tempFile = new File(path);
+			System.out.println("Trying creating folder " + path);
 			if (!tempFile.exists()) {
 				tempFile.mkdirs();
 			}
@@ -284,6 +285,9 @@ public class TplGen {
 				break;
 			case "mybatisconfig":
 				fileName = pathManager.getMyBatisConfigPath() + File.separator + "mybatis-config.xml";
+				break;
+			case "controller":
+				fileName = pathManager.getControllerPath() + File.separator + model + "Controller.java";
 				break;
 			default:;
 		}

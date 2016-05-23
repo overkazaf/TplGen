@@ -3,7 +3,7 @@ package org.john.bin.parser;
 import java.util.Map;
 import java.util.Set;
 
-import org.john.bin.PathManager;
+import org.john.bin.utils.PathManager;
 
 public class EntityParser extends ParserBase{
 	public void parse () {
