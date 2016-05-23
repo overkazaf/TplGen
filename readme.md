@@ -2,5 +2,5 @@
 
 ##Usage
 1. enter src/org/john/bin
-2. enter class TplGEN
+2. enter class TplGen
 3. run the main function
