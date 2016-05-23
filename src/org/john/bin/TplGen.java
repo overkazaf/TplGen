@@ -21,21 +21,39 @@ import org.john.bin.parser.TplCompiler;
 import org.john.bin.utils.PathManager;
 
 public class TplGen {
+	// 基础配置的property文件路径
 	private String propertiesName;
 	private Properties properties;
 	private InputStream inputStream;
+	
+	// 解析后的property key-value 键值对
 	private Map<String, String> parsedConfigurationMap;
+	
+	// 用户定义的模型列表
 	private List<String> modelList;
+	
+	// 模板代码列表
 	private List<String> tplList;
+	
+	// 模板代码的名称与模板代码内容的映射字典
 	private Map<String, String> tplMap;
+	
+	// 模型字典， 保存每一个模型的名字与属性值key-value对
 	private Map<String, Map<String, String>> modelMap;
+	
+	// 模板编译类实例对象， 用于编译模板
 	private TplCompiler compiler;
 	
+	// 路径管理器对象，负责处理路径相关的初始化和获取方法
 	private PathManager pathManager;
 	
-	
+	// 编译缓存字典，存储每一个实体编译后的目标字符串
 	private Map<String, Map<String, String>> compiledCache;
 
+	/**
+	 * 
+	 * @param propertiesName  基础配置文件的路径
+	 */
 	public TplGen(String propertiesName) {
 		this.propertiesName = propertiesName;
 		this.parsedConfigurationMap = new HashMap<String, String>();
@@ -59,14 +77,11 @@ public class TplGen {
 		} catch (FileNotFoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	};
 
 	/**
-	 * step2. 解析配置文件
+	 * step2. 解析properties配置文件成k-v字典
 	 */
 	public void parseConfig() {
 		try {
@@ -80,19 +95,14 @@ public class TplGen {
 			}
 			this.inputStream.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			System.out.println("Stop parsing configurations...");
 		}
 	}
 	
-	public void initPathManager () {
-		this.pathManager = new PathManager(this.parsedConfigurationMap);
-	}
-
 	/**
-	 * step3. 获取模型定义
+	 * step3. 获取每一个模型的定义， 存入modelMap这一数据结构中
 	 */
 	public void initModels() {
 		ArrayList<String> modelList = new ArrayList<String>();
@@ -135,9 +145,16 @@ public class TplGen {
 		this.modelList = modelList;
 		this.modelMap = modelMap;
 	}
+	
+	/**
+	 * 4.0 初始化路径管理器对象
+	 */
+	public void initPathManager () {
+		this.pathManager = new PathManager(this.parsedConfigurationMap);
+	}
 
 	/**
-	 * step 4.1 初始化模板
+	 * step 4.1 初始化模板代码，并存入缓存中
 	 * 
 	 * @return
 	 */
@@ -171,7 +188,12 @@ public class TplGen {
 
 		}
 	}
-
+	
+	/**
+	 * step 4.2 初始化构建目标文件夹，保证能将生成的目标编译代码正确写入相应路径
+	 * 
+	 * @return
+	 */
 	public void initFolders() {
 		String[] paths = {
 				pathManager.getControllerPath(),
@@ -195,18 +217,20 @@ public class TplGen {
 	}
 
 	/**
-	 * 初始化编译器实例
+	 * step 4.3 初始化编译器实例
+	 * 
+	 * @return
 	 */
 	public void initTplCompiler() {
 		this.compiler = new TplCompiler(this.parsedConfigurationMap);
 	}
 
 	/**
-	 * step 4.2 编译模板
+	 * step 5.0 执行编译任务，将编译结果写入缓存
 	 * 
 	 * @return
 	 */
-	public Boolean compileTemplate() {
+	public Boolean doCompileTask() {
 		List<String> modelList = this.modelList;
 		List<String> tplList = this.tplList;
 		Map<String, Map<String, String>> modelMap = this.modelMap;
@@ -225,28 +249,9 @@ public class TplGen {
 		return true;
 	}
 
-	/**
-	 * step5. 编译mybatis配置文件
-	 * 
-	 * @return
-	 */
-	public Boolean compileMybatisConfig() {
-
-		return true;
-	}
 
 	/**
-	 * step6. 编译mybatis的mapper文件
-	 * 
-	 * @return
-	 */
-	public Boolean compileMybatisMapper() {
-
-		return true;
-	}
-
-	/**
-	 * step7. 写入本地文件
+	 * step 6 写入本地文件
 	 * 
 	 * @return
 	 */
@@ -262,6 +267,13 @@ public class TplGen {
 		}
 		return true;
 	}
+	
+	/**
+	 * 
+	 * @param model         数据模型名称
+	 * @param tplName	          模板名称
+	 * @param compiledTpl   编译后的模板字符串
+	 */
 	public void write2DiskByDetail (String model, String tplName, String compiledTpl) {
 		String fileName = "";
 		
@@ -333,36 +345,36 @@ public class TplGen {
 	}
 
 	/**
-	 * 执行代码生成任务
+	 * TplGen实例执行代码生成任务
 	 * 编译和写磁盘的步骤以多线程加速
 	 */
 	public void exec() {
+		// 读基础配置的properties文件
 		this.readConfig();
-		this.parseConfig();
-		this.initPathManager();
 		
-		// 初始化models和template
+		// 解析基础配置的properties，以key-value形式存储
+		this.parseConfig();
+		
+		// 初始化用户自定义的models
 		this.initModels();
+		
+		// 初始化路径管理器，默认模板，构建目标文件夹，实例化编译器对象等
+		this.initPathManager();
 		this.initTemplate();
 		this.initFolders();
 		this.initTplCompiler();
 
-		// 根据数据models编译模板
-		this.compileTemplate();
-		this.compileMybatisConfig();
-		this.compileMybatisMapper();
+		// 同步执行编译任务
+		this.doCompileTask();
 
 		// 写本地磁盘
 		this.write2Disk();
 
 	};
 
-	public Boolean GenTemplates() {
-
-		return true;
-	};
 
 	public static void main(String[] args) {
+		// 测试的基础配置properties路径
 		String test = "E:\\Workspace\\Handson\\src\\org\\john\\bin\\test.properties";
 		TplGen tplGen = new TplGen(test);
 		tplGen.exec();

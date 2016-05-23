@@ -3,6 +3,11 @@ package org.john.bin.utils;
 import java.io.File;
 import java.util.Map;
 
+/**
+ * PathManager负责管理目标代码路径、包路径生成的工作
+ * @author jonong
+ *
+ */
 public class PathManager {
 	private String controllerPath;
 	private String mapperPath;

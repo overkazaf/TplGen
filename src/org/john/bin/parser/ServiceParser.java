@@ -1,14 +1,10 @@
 package org.john.bin.parser;
 
-import java.util.Map;
-
 import org.john.bin.utils.PathManager;
 
 public class ServiceParser extends ParserBase{
 	public void parse() {
 		String parsedTemplate = this.getTemplate();
-		Map<String, String> modelMap = this.getModelMap();
-		Map<String, String> configMap = this.getConfigMap();
 		PathManager pathManager = this.getPathManager();
 		
 		parsedTemplate = parsedTemplate.replace("{{packages}}", "package " + pathManager.getServicePackagePath() + ";\n\n");

@@ -1,7 +1,5 @@
 package org.john.bin.parser;
 
-import java.util.Map;
-
 import org.john.bin.utils.PathManager;
 
 public class MapperParser extends ParserBase{

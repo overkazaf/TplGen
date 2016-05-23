@@ -5,6 +5,11 @@ import java.util.Map;
 
 import org.john.bin.utils.PathManager;
 
+/**
+ * 模板代码编译器
+ * @author jonong
+ *
+ */
 public class TplCompiler {
 	private static Map<String, String> parsedConfigurationMap;
 
@@ -12,20 +17,7 @@ public class TplCompiler {
 		parsedConfigurationMap = map;
 	}
 
-	public static String genPackage(String model, String tplname, Map<String, String> modelMap) {
-		String pkgName = model.toLowerCase();
-		String tplName = tplname.toLowerCase();
-		String prefix = parsedConfigurationMap.get("targetPath");
-		String target = prefix.replace("/", ".") + "." + tplName + "." + pkgName;
-		return "package " + target;
-	}
-
-	public static String genImport(String model, String tplname, Map<String, String> modelMap) {
-
-		return "";
-	}
-
-	public static String compile(String model, Map<String, String> modelMap, String tplName, String tpl, List<String> list) {
+	public String compile(String model, Map<String, String> modelMap, String tplName, String tpl, List<String> list) {
 		
 		System.out.println("\n");
 		System.out.println("\n===========================================================");
@@ -38,11 +30,14 @@ public class TplCompiler {
 	}
 	
 	
-	public static String compileStretagy (String strategy, String model, Map<String, String> modelMap, String tpl, List<String> modelList) {
+	public String compileStretagy (String strategy, String model, Map<String, String> modelMap, String tpl, List<String> modelList) {
 		String compiledTpl = "";
 		try {
+			// 动态生成解析器实例对象
+			// 每个对象都是继承自ParserBaser类的子类实例，需要重写基类的parse和checkTemplate方法
 			ParserBase parser = (ParserBase) Class.forName("org.john.bin.parser."+ strategy + "Parser").newInstance();
 			
+			// 为解析器准备相应的数据结构
 			parser.setTemplate(tpl);
 			parser.setModelMap(modelMap);
 			parser.setConfigMap(parsedConfigurationMap);
@@ -50,10 +45,12 @@ public class TplCompiler {
 			parser.setTplName(strategy);
 			parser.setModelName(model);
 			parser.setModelList(modelList);
+			
+			// 启动解析任务 
 			parser.parse();
 			
-			
 			if (parser.checkTemplate()) {
+				// 每一个parser应该复写checkTemplate方法， 以校验是否完成了模板编译工作
 				compiledTpl = parser.getParsedTemplate();
 			}
 			

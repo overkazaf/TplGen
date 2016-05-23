@@ -3,6 +3,11 @@ package org.john.bin.utils;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * JdbcTypeMap是用于处理javaType <=> jdbcType相互转换的工具类, 后边需要实现两个类型转换接口，并支持定义指定的类型
+ * @author jonong
+ *
+ */
 public class JdbcTypeMap {
 	private Map<String, String> map;
 	
