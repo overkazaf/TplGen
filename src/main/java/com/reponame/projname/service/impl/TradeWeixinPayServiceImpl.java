@@ -1,9 +1,0 @@
-package main.java.com.reponame.projname.service.impl;
-
-import java.util.*;
-import main.java.com.reponame.projname.entity.TradeWeixinPay;
-import main.java.com.reponame.projname.mapper.TradeWeixinPayMapper;
-import main.java.com.reponame.projname.service.TradeWeixinPayService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-@Service public class TradeWeixinPayServiceImpl implements TradeWeixinPayService {	@Autowired	private TradeWeixinPayMapper tradeWeixinPayMapper;	@Override	public boolean addTradeWeixinPay (TradeWeixinPay tradeWeixinPay) throws Exception {		return tradeWeixinPayMapper.addTradeWeixinPay(tradeWeixinPay) != 0;	}		@Override	public boolean addAllTradeWeixinPays (List<TradeWeixinPay> tradeWeixinPayList) throws Exception {		return tradeWeixinPayMapper.addAllTradeWeixinPays(tradeWeixinPayList) == tradeWeixinPayList.size();	}		@Override	public boolean modifyTradeWeixinPay (TradeWeixinPay tradeWeixinPay) throws Exception {		return tradeWeixinPayMapper.modifyTradeWeixinPay(tradeWeixinPay) != 0;	}		@Override	public boolean modifyAllTradeWeixinPays (List<TradeWeixinPay> tradeWeixinPayList) throws Exception {		return tradeWeixinPayMapper.modifyAllTradeWeixinPays(tradeWeixinPayList) == tradeWeixinPayList.size();	}		@Override	public boolean removeTradeWeixinPayById (Integer tradeWeixinPayId) throws Exception {		return tradeWeixinPayMapper.removeTradeWeixinPayById(tradeWeixinPayId) != 0;	}		@Override	public boolean removeAllTradeWeixinPays (List<Integer> idList) throws Exception {		return tradeWeixinPayMapper.removeAllTradeWeixinPays(idList) == idList.size();	}	@Override	public TradeWeixinPay queryTradeWeixinPayById(Integer tradeWeixinPayId) throws Exception {		return tradeWeixinPayMapper.queryTradeWeixinPayById(tradeWeixinPayId);	}		@Override	public List<TradeWeixinPay> queryAllTradeWeixinPays() throws Exception {		return tradeWeixinPayMapper.queryAllTradeWeixinPays();	}}

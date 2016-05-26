@@ -1,5 +1,0 @@
-package main.java.com.reponame.projname.service;
-
-import java.util.*;
-import main.java.com.reponame.projname.entity.TradeWeixinPay;
-public interface TradeWeixinPayService {	public boolean addTradeWeixinPay (TradeWeixinPay tradeWeixinPay) throws Exception;	public boolean addAllTradeWeixinPays (List<TradeWeixinPay> tradeWeixinPayList) throws Exception;		public boolean modifyTradeWeixinPay (TradeWeixinPay tradeWeixinPay) throws Exception;	public boolean modifyAllTradeWeixinPays (List<TradeWeixinPay> tradeWeixinPayList) throws Exception;		public boolean removeTradeWeixinPayById (Integer tradeWeixinPayId) throws Exception;	public boolean removeAllTradeWeixinPays (List<Integer> idList) throws Exception;		public TradeWeixinPay queryTradeWeixinPayById (Integer tradeWeixinPayId) throws Exception;	public List<TradeWeixinPay> queryAllTradeWeixinPays() throws Exception;	}
