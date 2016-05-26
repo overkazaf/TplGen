@@ -379,6 +379,9 @@ public class TplGen {
 		// 这里是初始化的数据库表名
 		List<String> tables = new ArrayList<String>();
 		tables.add("user");
+		tables.add("role");
+		tables.add("role_group");
+		tables.add("trade_weixin_pay");
 		this.initModelsFromMySQL("test", tables);
 		
 		//this.initModels();
@@ -428,7 +431,9 @@ public class TplGen {
 				String currentProp = Common.toCamelCase(currentKey);
 				String columnType = currentMap.get(currentKey);
 				columnType = tempMap.get(columnType);
-				currentModelMap.put(currentProp, columnType);
+				if (columnType != null) {
+					currentModelMap.put(currentProp, columnType);
+				}
 			}
 			modelList.add(fixedModelKey);
 			modelMap.put(fixedModelKey, currentModelMap);
