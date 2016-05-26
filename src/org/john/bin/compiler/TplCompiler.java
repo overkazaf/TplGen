@@ -18,7 +18,7 @@ public class TplCompiler {
 		parsedConfigurationMap = map;
 	}
 
-	public String compile(String model, Map<String, String> modelMap, String tplName, String tpl, List<String> list) {
+	public String compile(String model, Map<String, String> modelMap, String tplName, String tpl, List<String> list, Map<String, String> jdbcTypeMap) {
 		
 		System.out.println("\n");
 		System.out.println("\n===========================================================");
@@ -27,11 +27,11 @@ public class TplCompiler {
 		System.out.println("\n===========================================================");
 		System.out.println("\n");
 		
-		return compileStretagy(tplName, model, modelMap, tpl, list);
+		return compileStretagy(tplName, model, modelMap, tpl, list, jdbcTypeMap);
 	}
 	
 	
-	public String compileStretagy (String strategy, String model, Map<String, String> modelMap, String tpl, List<String> modelList) {
+	public String compileStretagy (String strategy, String model, Map<String, String> modelMap, String tpl, List<String> modelList, Map<String,String> jdbcTypeMap) {
 		String compiledTpl = "";
 		try {
 			// 动态生成解析器实例对象
@@ -42,6 +42,7 @@ public class TplCompiler {
 			parser.setTemplate(tpl);
 			parser.setModelMap(modelMap);
 			parser.setConfigMap(parsedConfigurationMap);
+			parser.setJdbcTypeMap(jdbcTypeMap);
 			parser.setPathManager(new PathManager(parsedConfigurationMap));
 			parser.setTplName(strategy);
 			parser.setModelName(model);

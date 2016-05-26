@@ -1,5 +1,6 @@
 package org.john.bin.parser;
 
+import java.io.Console;
 import java.util.Map;
 import java.util.Set;
 
@@ -28,6 +29,7 @@ public class MyBatisMapperParser extends ParserBase{
 
 		parsedTemplate = parsedTemplate.replace("{{EntityUpdateArea}}", generateEntityUpdateArea());
 		
+		System.out.println("getJdbcTypeMap   " + this.getJdbcTypeMap());
 		this.setParsedTemplate(parsedTemplate);
 	}
 	public boolean checkTemplate () {
@@ -39,15 +41,14 @@ public class MyBatisMapperParser extends ParserBase{
 		Map<String, String> map = this.getModelMap();
 		Set<String> keys = map.keySet();
 		StringBuilder sb = new StringBuilder();
-		JdbcTypeMap jdbcTypeMap = new JdbcTypeMap();
+		Map<String, String> jdbcTypeMap = this.getJdbcTypeMap();
 		
 		for (String key : keys) {
 			String tabKey = Common.toSlashedCase(key);
 			if (sb.length() > 0) {
 				sb.append(",");
 			}
-			String javaType = map.get(key);
-			String type = getMapKeyByValue(jdbcTypeMap.getMap(), javaType);
+			String type = jdbcTypeMap.get(key);
 			sb.append("#{" + tabKey + ",jdbcType=" + type +"}");
 		}
 		

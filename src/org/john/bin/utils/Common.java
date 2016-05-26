@@ -54,6 +54,7 @@ public class Common {
 		tempMap.put("DOUBLE", "Double");
 		tempMap.put("FLOAT", "Double");
 		
+		tempMap.put("INT", "Integer");
 		tempMap.put("INTEGER", "Integer");
 		tempMap.put("JAVA_OBJECT", "Object");
 		tempMap.put("LONGVARBINARY", "byte[]");

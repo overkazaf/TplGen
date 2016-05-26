@@ -40,8 +40,11 @@ public class TplGen {
 	// 模板代码的名称与模板代码内容的映射字典
 	private Map<String, String> tplMap;
 
-	// 模型字典， 保存每一个模型的名字与属性值key-value对
+	// 实体模型字典， 保存每一个模型的名字与属性值key-value对
 	private Map<String, Map<String, String>> modelMap;
+	
+	// 实体模型的属性与jdbcType映射关系
+	private Map<String, Map<String, String>> jdbcTypeMap;
 
 	// 模板编译类实例对象， 用于编译模板
 	private TplCompiler compiler;
@@ -63,6 +66,7 @@ public class TplGen {
 		this.modelList = new ArrayList<String>();
 		this.tplList = new ArrayList<String>();
 		this.modelMap = new HashMap<String, Map<String, String>>();
+		this.jdbcTypeMap = new HashMap<String, Map<String, String>>();
 		this.tplMap = new HashMap<String, String>();
 		this.compiledCache = new HashMap<String, Map<String, String>>();
 	};
@@ -239,11 +243,12 @@ public class TplGen {
 		List<String> tplList = this.tplList;
 		Map<String, Map<String, String>> modelMap = this.modelMap;
 		Map<String, String> tplMap = this.tplMap;
+		Map<String, Map<String, String>> jdbcTypeMap = this.jdbcTypeMap;
 		for (String modelName : modelList) {
 			for (String tplName : tplList) {
 				String targetTpl = this.compiler.compile(modelName,
 						modelMap.get(modelName), tplName, tplMap.get(tplName),
-						modelList);
+						modelList, jdbcTypeMap.get(modelName));
 				Map<String, String> map = compiledCache.get(modelName);
 				if (map == null) {
 					map = new HashMap<String, String>();
@@ -320,11 +325,11 @@ public class TplGen {
 		default:
 			;
 		}
-
 		WriteThread thread = new WriteThread(fileName, compiledTpl);
 		thread.start();
+		
 	}
-
+	
 	class WriteThread extends Thread {
 		private String taskName;
 		private String tpl;
@@ -362,6 +367,7 @@ public class TplGen {
 			return tpl;
 		}
 	}
+
 
 	/**
 	 * TplGen实例执行代码生成任务 编译和写磁盘的步骤以多线程加速
@@ -411,6 +417,9 @@ public class TplGen {
 		Map<String, Map<String, String>> modelMap = new HashMap<String, Map<String, String>>();
 		Map<String, String> tempMap = Common.getDBTypeMap();
 		
+		
+		// 保存原表中各字段jdbcType映射的字典
+		Map<String, Map<String, String>> jdbcTypeMap = new HashMap<String, Map<String,String>>();
 
 		MetaDataFetcher fetcher = new MetaDataFetcher("test", "root", "");
 		Map<String, Map<String, String>> rawMap = fetcher.mapDBTable2Entities(
@@ -427,20 +436,39 @@ public class TplGen {
 			
 			Map<String, String> currentModelMap = new HashMap<String, String>();
 			
+			Map<String, String> currentJdbcTypeMap = jdbcTypeMap.get(fixedModelKey);
+			
+			if (currentJdbcTypeMap == null) {
+				currentJdbcTypeMap = new HashMap<String, String>();
+			}
+			
+			System.out.println("ModelKeys:::::" + modelKey);
+			System.out.println("currentMap::" + currentMap);
 			for (String currentKey : currentKeySet) {
 				String currentProp = Common.toCamelCase(currentKey);
 				String columnType = currentMap.get(currentKey);
+				
+				// 把原字段的jdbcType存储下来
 				columnType = tempMap.get(columnType);
 				if (columnType != null) {
 					currentModelMap.put(currentProp, columnType);
+					currentJdbcTypeMap.put(currentProp, columnType);
 				}
 			}
+			System.out.println(fixedModelKey + "     " + currentJdbcTypeMap);
+			System.out.println(fixedModelKey + "     " + currentModelMap);
 			modelList.add(fixedModelKey);
 			modelMap.put(fixedModelKey, currentModelMap);
+			
+			jdbcTypeMap.put(fixedModelKey, currentJdbcTypeMap);
+			
 		}
 
 		 this.modelList = modelList;
 		 this.modelMap = modelMap;
+		 this.jdbcTypeMap = jdbcTypeMap;
+		 
+		 System.out.println("jdbcType ::::::" + jdbcTypeMap);
 	}
 
 	public static void main(String[] args) {

@@ -12,6 +12,7 @@ public abstract class ParserBase {
 	private String modelName;
 	private Map<String, String> modelMap;
 	private Map<String, String> configMap;
+	private Map<String, String> jdbcTypeMap;
 	private PathManager pathManager;
 	private List<String> modelList;
 	
@@ -29,6 +30,14 @@ public abstract class ParserBase {
 
 	public void setModelMap(Map<String, String> modelMap) {
 		this.modelMap = modelMap;
+	}
+	
+	public Map<String, String> getJdbcTypeMap() {
+		return jdbcTypeMap;
+	}
+
+	public void setJdbcTypeMap(Map<String, String> jdbcTypeMap) {
+		this.jdbcTypeMap = jdbcTypeMap;
 	}
 	
 	public Map<String, String> getConfigMap() {
