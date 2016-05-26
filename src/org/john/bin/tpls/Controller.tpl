@@ -38,28 +38,28 @@ public class {{Entity}}Controller {
         return "removeAll{{Entity}}s";  
     }
       
-    @RequestMapping(value = "/update", method = RequestMethod.PUT)
-    public String update{{Entity}}(HttpServletRequest request, {{RequestParams}}) {  
+    @RequestMapping(value = "/modify", method = RequestMethod.PUT)
+    public String modify{{Entity}}(HttpServletRequest request, {{RequestParams}}) {  
     	
-    	return "update{{Entity}}";
+    	return "modify{{Entity}}";
     }
     
-    @RequestMapping(value = "/updateAll", method = RequestMethod.PUT)
-    public String updateAll{{Entity}}s(HttpServletRequest request, {{RequestParams}}) {  
+    @RequestMapping(value = "/modifyAll", method = RequestMethod.PUT)
+    public String modifyAll{{Entity}}s(HttpServletRequest request, {{RequestParams}}) {  
     	
-    	return "updateAll{{Entity}}s";
+    	return "modifyAll{{Entity}}s";
     }  
     
     
-    @RequestMapping(value = "/find", method = RequestMethod.GET)
-    public String find{{Entity}}ById(HttpServletRequest request, {{RequestParams}}) {  
+    @RequestMapping(value = "/query", method = RequestMethod.GET)
+    public String query{{Entity}}ById(HttpServletRequest request, {{RequestParams}}) {  
     	
-    	return "find{{Entity}}ById";
+    	return "query{{Entity}}ById";
     }
     
-    @RequestMapping(value = "/findAll", method = RequestMethod.GET)
-    public String findAll{{Entity}}s(HttpServletRequest request, {{RequestParams}}) {  
+    @RequestMapping(value = "/queryAll", method = RequestMethod.GET)
+    public String queryAll{{Entity}}s(HttpServletRequest request, {{RequestParams}}) {  
     	
-    	return "findAll{{Entity}}s";
+    	return "queryAll{{Entity}}s";
     }
 }  

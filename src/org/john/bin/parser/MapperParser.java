@@ -1,5 +1,6 @@
 package org.john.bin.parser;
 
+import org.john.bin.utils.Common;
 import org.john.bin.utils.PathManager;
 
 public class MapperParser extends ParserBase{
@@ -12,6 +13,10 @@ public class MapperParser extends ParserBase{
 		parsedTemplate = parsedTemplate.replace("{{imports}}", generateImports());
 
 		parsedTemplate = parsedTemplate.replace("{{Entity}}", this.getModelName());
+		
+		parsedTemplate = parsedTemplate.replace("{{entity}}", Common.firstCharToLowerCase(this.getModelName()));
+
+		parsedTemplate = parsedTemplate.replace("{{PK}}", this.getConfigMap().get("primaryKeyType"));
 		
 		this.setParsedTemplate(parsedTemplate);
 	}

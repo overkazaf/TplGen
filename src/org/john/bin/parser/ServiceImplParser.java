@@ -1,5 +1,6 @@
 package org.john.bin.parser;
 
+import org.john.bin.utils.Common;
 import org.john.bin.utils.PathManager;
 
 public class ServiceImplParser extends ParserBase{
@@ -13,7 +14,9 @@ public class ServiceImplParser extends ParserBase{
 
 		parsedTemplate = parsedTemplate.replace("{{Entity}}", this.getModelName());
 		
-		parsedTemplate = parsedTemplate.replace("{{entity}}", ((this.getModelName().charAt(0)+"").toLowerCase() + this.getModelName().substring(1)));
+		parsedTemplate = parsedTemplate.replace("{{entity}}", Common.firstCharToLowerCase(this.getModelName()));
+		
+		parsedTemplate = parsedTemplate.replace("{{PK}}", this.getConfigMap().get("primaryKeyType"));
 		
 		this.setParsedTemplate(parsedTemplate);
 	}

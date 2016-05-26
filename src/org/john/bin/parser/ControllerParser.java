@@ -4,6 +4,7 @@ package org.john.bin.parser;
 import java.util.Map;
 import java.util.Set;
 
+import org.john.bin.utils.Common;
 import org.john.bin.utils.PathManager;
 
 public class ControllerParser extends ParserBase{
@@ -17,7 +18,7 @@ public class ControllerParser extends ParserBase{
 
 		parsedTemplate = parsedTemplate.replace("{{Entity}}", this.getModelName());
 		
-		parsedTemplate = parsedTemplate.replace("{{entity}}", ((this.getModelName().charAt(0)+"").toLowerCase() + this.getModelName().substring(1)));
+		parsedTemplate = parsedTemplate.replace("{{entity}}", Common.firstCharToLowerCase(this.getModelName()));
 		
 		parsedTemplate = parsedTemplate.replace("{{RequestParams}}", generateRequestParams());
 		

@@ -6,7 +6,7 @@
 	{{EntityTableKeys}}
 	</sql>
 	
-	<select id="find{{Entity}}ById" parameterType="int" resultType="{{entity}}">
+	<select id="query{{Entity}}ById" parameterType="int" resultType="{{entity}}">
 		SELECT
 			<include refid="Base_Column_List" />
 		FROM
@@ -15,7 +15,7 @@
 		id = #{{{EntityPrimaryKey}}}
 	</select>
 	
-	<select id="findAll{{Entity}}s" parameterType="int" resultType="{{entity}}">
+	<select id="queryAll{{Entity}}s" parameterType="int" resultType="{{entity}}">
 		SELECT
 			<include refid="Base_Column_List" />
 		FROM
@@ -69,7 +69,7 @@
 	</delete>
 	
 	
-	<update id="update{{Entity}}" parameterType="{{entity}}">
+	<update id="modify{{Entity}}" parameterType="{{entity}}">
 		UPDATE
 		{{TablePrefix}}{{Entity}}
 		SET
@@ -78,7 +78,7 @@
 		id = #{{{EntityPrimaryKey}}}
 	</update>
 	
-	<update id="updateAll{{Entity}}s" parameterType="java.util.List">
+	<update id="modifyAll{{Entity}}s" parameterType="java.util.List">
 		UPDATE
 		{{TablePrefix}}{{Entity}}
 		SET

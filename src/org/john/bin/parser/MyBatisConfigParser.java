@@ -2,6 +2,8 @@ package org.john.bin.parser;
 
 import java.util.List;
 
+import org.john.bin.utils.Common;
+
 public class MyBatisConfigParser extends ParserBase{
 	public void parse() {
 		String parsedTemplate = this.getTemplate();
@@ -15,7 +17,7 @@ public class MyBatisConfigParser extends ParserBase{
 		StringBuilder sb = new StringBuilder();
 		List<String> list = this.getModelList();
 		for (String entity : list) {
-			sb.append("<typeAlias alias=\""+ ((entity.charAt(0)+"").toLowerCase() + entity.substring(1)) +"\" type=\""+ this.getPathManager().getEntityPackagePath() + "." + entity +"\" />\n");
+			sb.append("<typeAlias alias=\""+ Common.firstCharToLowerCase(entity) +"\" type=\""+ this.getPathManager().getEntityPackagePath() + "." + entity +"\" />\n");
 		}
 		
 		return sb.toString();

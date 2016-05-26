@@ -3,15 +3,16 @@
 {{imports}}
 
 public interface {{Entity}}Mapper {
-    public int add{{Entity}} ({{Entity}} entity);
-	public int addAll{{Entity}}s (List<{{Entity}}> entityList);
+    public int add{{Entity}} ({{Entity}} {{entity}});
+	public int addAll{{Entity}}s (List<{{Entity}}> {{entity}}List);
 	
-	public int update{{Entity}} ({{Entity}} entity);
-	public int updateAll{{Entity}}s (List<{{Entity}}> entityList);
+	public int modify{{Entity}} ({{Entity}} {{entity}});
+	public int modifyAll{{Entity}}s (List<{{Entity}}> {{entity}}List);
 	
-	public int remove{{Entity}}ById (String id);
-	public int removeAll{{Entity}}s (List<String> idList);
+	public int remove{{Entity}}ById ({{PK}} {{entity}}Id);
+	public int removeAll{{Entity}}s (List<{{PK}}> idList);
 	
-	public {{Entity}} find{{Entity}}ById(String id);
-	public List<{{Entity}}> findAll{{Entity}}s();
+	public {{Entity}} query{{Entity}}ById({{PK}} {{entity}}Id);
+	public List<{{Entity}}> queryAll{{Entity}}s();
+	
 }

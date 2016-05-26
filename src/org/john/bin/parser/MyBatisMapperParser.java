@@ -3,6 +3,7 @@ package org.john.bin.parser;
 import java.util.Map;
 import java.util.Set;
 
+import org.john.bin.utils.Common;
 import org.john.bin.utils.JdbcTypeMap;
 
 public class MyBatisMapperParser extends ParserBase{
@@ -16,7 +17,7 @@ public class MyBatisMapperParser extends ParserBase{
 		parsedTemplate = parsedTemplate.replace("{{EntityPrimaryKey}}", "id");
 		parsedTemplate = parsedTemplate.replace("{{EntityTablePrimaryKey}}", "id");
 		
-		parsedTemplate = parsedTemplate.replace("{{entity}}", ((this.getModelName().charAt(0)+"").toLowerCase() + this.getModelName().substring(1)));
+		parsedTemplate = parsedTemplate.replace("{{entity}}", Common.firstCharToLowerCase(this.getModelName()));
 		
 		parsedTemplate = parsedTemplate.replace("{{TablePrefix}}", "");
 		
@@ -41,7 +42,7 @@ public class MyBatisMapperParser extends ParserBase{
 		JdbcTypeMap jdbcTypeMap = new JdbcTypeMap();
 		
 		for (String key : keys) {
-			String tabKey = Upper2Slashed(key);
+			String tabKey = Common.toSlashedCase(key);
 			if (sb.length() > 0) {
 				sb.append(",");
 			}
@@ -79,7 +80,7 @@ public class MyBatisMapperParser extends ParserBase{
 			if (sb.length() > 0) {
 				sb.append(",");
 			}
-			sb.append(Upper2Slashed(key));
+			sb.append(Common.toSlashedCase(key));
 		}
 		
 		System.out.println("generateEntityKeys  == >  " + sb.toString());
@@ -87,20 +88,6 @@ public class MyBatisMapperParser extends ParserBase{
 		return sb.toString();
 	}
 	
-	
-	public String Upper2Slashed (String key) {
-		String slashed = "";
-		for (int i = 0; i < key.length(); i++) {
-			char ch = key.charAt(i);
-			if (Character.isUpperCase(ch)) {
-				slashed += "_" + Character.toLowerCase(ch);
-			} else {
-				slashed += ch;
-			}
-		}
-		
-		return slashed;
-	}
 	
 	public String generateEntityUpdateArea () {
 		Map<String, String> map = this.getModelMap();
@@ -114,7 +101,7 @@ public class MyBatisMapperParser extends ParserBase{
 					sb.append(",");
 				}
 				//sb.append("key=#{value,jdbcType=xxx}");
-				String updateLine = Upper2Slashed(key) + "=#{" + key + ",jdbcType="+ getMapKeyByValue(jdbcTypeMap.getMap(), map.get(key)) +"}"; 
+				String updateLine = Common.toSlashedCase(key) + "=#{" + key + ",jdbcType="+ getMapKeyByValue(jdbcTypeMap.getMap(), map.get(key)) +"}"; 
 				sb.append(updateLine);
 			}
 		}
