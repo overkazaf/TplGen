@@ -1,11 +1,9 @@
 package org.john.bin.parser;
 
-import java.io.Console;
 import java.util.Map;
 import java.util.Set;
 
 import org.john.bin.utils.Common;
-import org.john.bin.utils.JdbcTypeMap;
 
 public class MyBatisMapperParser extends ParserBase{
 	public void parse() {
@@ -94,7 +92,7 @@ public class MyBatisMapperParser extends ParserBase{
 		Map<String, String> map = this.getModelMap();
 		Set<String> keys = map.keySet();
 		StringBuilder sb = new StringBuilder();
-		JdbcTypeMap jdbcTypeMap = new JdbcTypeMap();
+		Map<String, String> jdbcTypeMap = this.getJdbcTypeMap();
 		
 		for (String key : keys) {
 			if (!key.equals("id")) {
@@ -102,7 +100,7 @@ public class MyBatisMapperParser extends ParserBase{
 					sb.append(",");
 				}
 				//sb.append("key=#{value,jdbcType=xxx}");
-				String updateLine = Common.toSlashedCase(key) + "=#{" + key + ",jdbcType="+ getMapKeyByValue(jdbcTypeMap.getMap(), map.get(key)) +"}"; 
+				String updateLine = Common.toSlashedCase(key) + "=#{" + key + ",jdbcType="+ jdbcTypeMap.get(key) +"}"; 
 				sb.append(updateLine);
 			}
 		}

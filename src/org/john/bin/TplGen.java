@@ -447,11 +447,11 @@ public class TplGen {
 			for (String currentKey : currentKeySet) {
 				String currentProp = Common.toCamelCase(currentKey);
 				String columnType = currentMap.get(currentKey);
-				
+				String fixedColumnType = columnType;
 				// 把原字段的jdbcType存储下来
-				columnType = tempMap.get(columnType);
-				if (columnType != null) {
-					currentModelMap.put(currentProp, columnType);
+				fixedColumnType = tempMap.get(columnType);
+				if (fixedColumnType != null) {
+					currentModelMap.put(currentProp, fixedColumnType);
 					currentJdbcTypeMap.put(currentProp, columnType);
 				}
 			}
