@@ -7,4 +7,9 @@
 
 ##Tips
 + modify the setup.properties to match project structure
-+ 
++ in the demo case, we use test schema, which contains table user, role,
+	role_group and trade_weixin_pay tables to generate relative files if you
+	want to fetch remote mysql database tables as your entities
++ allow users to use static model definitions in /src/org/john/bin/models/
++ /src/org/john/bin/scripts/init.sql is provided if you dont prepare some table
++ have fun
