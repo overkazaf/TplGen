@@ -5,7 +5,8 @@
 2. enter class TplGen
 3. run the main function
 
-##Tips
+##Notes
++ the entry package is located on /src/org/john/bin/
 + modify the setup.properties to match project structure
 + in the demo case, we use test schema, which contains table user, role,
 	role_group and trade_weixin_pay tables to generate relative files if you
