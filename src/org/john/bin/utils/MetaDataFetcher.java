@@ -13,7 +13,7 @@ import java.util.Set;
 public class MetaDataFetcher {
 	private final static String DB_NAME = "test";
 	private final static String DB_USER = "root";
-	private final static String DB_PASS = "";
+	private final static String DB_PASS = "testing";
 	
 	private DatabaseMetaData dbMetaData = null;  
     private Connection con = null;  
@@ -32,22 +32,22 @@ public class MetaDataFetcher {
         try{     
             ResultSet rs = dbMetaData.getColumns(null, schemaName, tableName, "%");              
             while (rs.next()){  
-                    String tableCat = rs.getString("TABLE_CAT");//±íÄ¿Â¼£¨¿ÉÄÜÎª¿Õ£©                  
-                    String tableSchemaName = rs.getString("TABLE_SCHEM");//±íµÄ¼Ü¹¹£¨¿ÉÄÜÎª¿Õ£©     
-                    String tableName_ = rs.getString("TABLE_NAME");//±íÃû  
-                    String columnName = rs.getString("COLUMN_NAME");//ÁÐÃû  
-                    int dataType = rs.getInt("DATA_TYPE"); //¶ÔÓ¦µÄjava.sql.TypesÀàÐÍ     
-                    String dataTypeName = rs.getString("TYPE_NAME");//java.sql.TypesÀàÐÍ   Ãû³Æ  
-                    int columnSize = rs.getInt("COLUMN_SIZE");//ÁÐ´óÐ¡  
-                    int decimalDigits = rs.getInt("DECIMAL_DIGITS");//Ð¡ÊýÎ»Êý  
-                    int numPrecRadix = rs.getInt("NUM_PREC_RADIX");//»ùÊý£¨Í¨³£ÊÇ10»ò2£©  
-                    int nullAble = rs.getInt("NULLABLE");//ÊÇ·ñÔÊÐíÎªnull  
-                    String remarks = rs.getString("REMARKS");//ÁÐÃèÊö  
-                    String columnDef = rs.getString("COLUMN_DEF");//Ä¬ÈÏÖµ  
-                    int sqlDataType = rs.getInt("SQL_DATA_TYPE");//sqlÊý¾ÝÀàÐÍ  
-                    int sqlDatetimeSub = rs.getInt("SQL_DATETIME_SUB");   //SQLÈÕÆÚÊ±¼ä·Ö?  
-                    int charOctetLength = rs.getInt("CHAR_OCTET_LENGTH");   //charÀàÐÍµÄÁÐÖÐµÄ×î´ó×Ö½ÚÊý  
-                    int ordinalPosition = rs.getInt("ORDINAL_POSITION");  //±íÖÐÁÐµÄË÷Òý£¨´Ó1¿ªÊ¼£©  
+                    String tableCat = rs.getString("TABLE_CAT");//ï¿½ï¿½Ä¿Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½Õ£ï¿½                  
+                    String tableSchemaName = rs.getString("TABLE_SCHEM");//ï¿½ï¿½Ä¼Ü¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½Õ£ï¿½     
+                    String tableName_ = rs.getString("TABLE_NAME");//ï¿½ï¿½ï¿½ï¿½  
+                    String columnName = rs.getString("COLUMN_NAME");//ï¿½ï¿½ï¿½ï¿½  
+                    int dataType = rs.getInt("DATA_TYPE"); //ï¿½ï¿½Ó¦ï¿½ï¿½java.sql.Typesï¿½ï¿½ï¿½ï¿½     
+                    String dataTypeName = rs.getString("TYPE_NAME");//java.sql.Typesï¿½ï¿½ï¿½ï¿½   ï¿½ï¿½ï¿½ï¿½  
+                    int columnSize = rs.getInt("COLUMN_SIZE");//ï¿½Ð´ï¿½Ð¡  
+                    int decimalDigits = rs.getInt("DECIMAL_DIGITS");//Ð¡ï¿½ï¿½Î»ï¿½ï¿½  
+                    int numPrecRadix = rs.getInt("NUM_PREC_RADIX");//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½ï¿½ï¿½10ï¿½ï¿½2ï¿½ï¿½  
+                    int nullAble = rs.getInt("NULLABLE");//ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½Îªnull  
+                    String remarks = rs.getString("REMARKS");//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  
+                    String columnDef = rs.getString("COLUMN_DEF");//Ä¬ï¿½ï¿½Öµ  
+                    int sqlDataType = rs.getInt("SQL_DATA_TYPE");//sqlï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  
+                    int sqlDatetimeSub = rs.getInt("SQL_DATETIME_SUB");   //SQLï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½?  
+                    int charOctetLength = rs.getInt("CHAR_OCTET_LENGTH");   //charï¿½ï¿½ï¿½Íµï¿½ï¿½ï¿½ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½Ö½ï¿½ï¿½ï¿½  
+                    int ordinalPosition = rs.getInt("ORDINAL_POSITION");  //ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½1ï¿½ï¿½Ê¼ï¿½ï¿½  
                     
                     Map<String, String> currentEntityMap = entityMap.get(tableName_);
                     if (currentEntityMap == null) {
@@ -56,7 +56,7 @@ public class MetaDataFetcher {
                     
                     currentEntityMap.put(columnName, dataTypeName);
                     
-                    // ×îºó»áÉú³Éentity map, ´æ·ÅµÄÊÇÊµÌåÀà±íµÄÁÐ×Ö¶ÎÃû¼°ÁÐ×Ö¶ÎµÄjdbcTypeÀàÐÍ
+                    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½entity map, ï¿½ï¿½Åµï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¶Îµï¿½jdbcTypeï¿½ï¿½ï¿½ï¿½
                     entityMap.put(tableName_, currentEntityMap);
                 }     
             } catch (SQLException e){  
@@ -73,9 +73,9 @@ public class MetaDataFetcher {
     		try{     
                 ResultSet rs = dbMetaData.getColumns(null, schemaName, tableName, "%");              
                 while (rs.next()){  
-                    String tableName_ = rs.getString("TABLE_NAME");//±íÃû  
-                    String columnName = rs.getString("COLUMN_NAME");//ÁÐÃû  
-                    String dataTypeName = rs.getString("TYPE_NAME");//java.sql.TypesÀàÐÍ   Ãû³Æ  
+                    String tableName_ = rs.getString("TABLE_NAME");//ï¿½ï¿½ï¿½ï¿½  
+                    String columnName = rs.getString("COLUMN_NAME");//ï¿½ï¿½ï¿½ï¿½  
+                    String dataTypeName = rs.getString("TYPE_NAME");//java.sql.Typesï¿½ï¿½ï¿½ï¿½   ï¿½ï¿½ï¿½ï¿½  
                     
                     Map<String, String> currentEntityMap = entityMap.get(tableName_);
                     if (currentEntityMap == null) {
@@ -84,7 +84,7 @@ public class MetaDataFetcher {
                     
                     currentEntityMap.put(columnName, dataTypeName);
                     
-                    // ×îºó»áÉú³Éentity map, ´æ·ÅµÄÊÇÊµÌåÀà±íµÄÁÐ×Ö¶ÎÃû¼°ÁÐ×Ö¶ÎµÄjdbcTypeÀàÐÍ
+                    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½entity map, ï¿½ï¿½Åµï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¶Îµï¿½jdbcTypeï¿½ï¿½ï¿½ï¿½
                     entityMap.put(tableName_, currentEntityMap);
                 }     
             } catch (SQLException e){  

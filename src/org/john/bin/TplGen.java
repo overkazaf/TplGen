@@ -23,42 +23,42 @@ import org.john.bin.utils.MetaDataFetcher;
 import org.john.bin.utils.PathManager;
 
 public class TplGen {
-	// »ù´¡ÅäÖÃµÄpropertyÎÄ¼şÂ·¾¶
+	// åŸºç¡€é…ç½®çš„propertyæ–‡ä»¶è·¯å¾„
 	private String propertiesName;
 	private Properties properties;
 	private InputStream inputStream;
 
-	// ½âÎöºóµÄproperty key-value ¼üÖµ¶Ô
+	// è§£æåçš„property key-value é”®å€¼å¯¹
 	private Map<String, String> parsedConfigurationMap;
 
-	// ÓÃ»§¶¨ÒåµÄÄ£ĞÍÁĞ±í
+	// ç”¨æˆ·å®šä¹‰çš„æ¨¡å‹åˆ—è¡¨
 	private List<String> modelList;
 
-	// Ä£°å´úÂëÁĞ±í
+	// æ¨¡æ¿ä»£ç åˆ—è¡¨
 	private List<String> tplList;
 
-	// Ä£°å´úÂëµÄÃû³ÆÓëÄ£°å´úÂëÄÚÈİµÄÓ³Éä×Öµä
+	// æ¨¡æ¿ä»£ç çš„åç§°ä¸æ¨¡æ¿ä»£ç å†…å®¹çš„æ˜ å°„å­—å…¸
 	private Map<String, String> tplMap;
 
-	// ÊµÌåÄ£ĞÍ×Öµä£¬ ±£´æÃ¿Ò»¸öÄ£ĞÍµÄÃû×ÖÓëÊôĞÔÖµkey-value¶Ô
+	// å®ä½“æ¨¡å‹å­—å…¸ï¼Œ ä¿å­˜æ¯ä¸€ä¸ªæ¨¡å‹çš„åå­—ä¸å±æ€§å€¼key-valueå¯¹
 	private Map<String, Map<String, String>> modelMap;
 	
-	// ÊµÌåÄ£ĞÍµÄÊôĞÔÓëjdbcTypeÓ³Éä¹ØÏµ
+	// å®ä½“æ¨¡å‹çš„å±æ€§ä¸jdbcTypeæ˜ å°„å…³ç³»
 	private Map<String, Map<String, String>> jdbcTypeMap;
 
-	// Ä£°å±àÒëÀàÊµÀı¶ÔÏó£¬ ÓÃÓÚ±àÒëÄ£°å
+	// æ¨¡æ¿ç¼–è¯‘ç±»å®ä¾‹å¯¹è±¡ï¼Œ ç”¨äºç¼–è¯‘æ¨¡æ¿
 	private TplCompiler compiler;
 
-	// Â·¾¶¹ÜÀíÆ÷¶ÔÏó£¬¸ºÔğ´¦ÀíÂ·¾¶Ïà¹ØµÄ³õÊ¼»¯ºÍ»ñÈ¡·½·¨
+	// è·¯å¾„ç®¡ç†å™¨å¯¹è±¡ï¼Œè´Ÿè´£å¤„ç†è·¯å¾„ç›¸å…³çš„åˆå§‹åŒ–å’Œè·å–æ–¹æ³•
 	private PathManager pathManager;
 
-	// ±àÒë»º´æ×Öµä£¬´æ´¢Ã¿Ò»¸öÊµÌå±àÒëºóµÄÄ¿±ê×Ö·û´®
+	// ç¼–è¯‘ç¼“å­˜å­—å…¸ï¼Œå­˜å‚¨æ¯ä¸€ä¸ªå®ä½“ç¼–è¯‘åçš„ç›®æ ‡å­—ç¬¦ä¸²
 	private Map<String, Map<String, String>> compiledCache;
 
 	/**
 	 * 
 	 * @param propertiesName
-	 *            »ù´¡ÅäÖÃÎÄ¼şµÄÂ·¾¶
+	 *            åŸºç¡€é…ç½®æ–‡ä»¶çš„è·¯å¾„
 	 */
 	public TplGen(String propertiesName) {
 		this.propertiesName = propertiesName;
@@ -72,7 +72,7 @@ public class TplGen {
 	};
 
 	/**
-	 * step1. ¶ÁÅäÖÃÎÄ¼ş
+	 * step1. è¯»é…ç½®æ–‡ä»¶
 	 */
 	public void readConfig() {
 		this.properties = new Properties();
@@ -88,12 +88,13 @@ public class TplGen {
 	};
 
 	/**
-	 * step2. ½âÎöpropertiesÅäÖÃÎÄ¼ş³Ék-v×Öµä
+	 * step2. è§£æpropertiesé…ç½®æ–‡ä»¶æˆk-vå­—å…¸
 	 */
 	public void parseConfig() {
 		try {
 			this.properties.load(this.inputStream);
-			Enumeration enum1 = this.properties.propertyNames();// µÃµ½ÅäÖÃÎÄ¼şµÄÃû×Ö
+			// å¾—åˆ°é…ç½®æ–‡ä»¶çš„åå­—
+			Enumeration enum1 = this.properties.propertyNames();
 			System.out.println("Start parsing configurations...");
 			while (enum1.hasMoreElements()) {
 				String key = (String) enum1.nextElement();
@@ -109,14 +110,14 @@ public class TplGen {
 	}
 
 	/**
-	 * step 3 ³õÊ¼»¯Â·¾¶¹ÜÀíÆ÷¶ÔÏó
+	 * step 3 åˆå§‹åŒ–è·¯å¾„ç®¡ç†å™¨å¯¹è±¡
 	 */
 	public void initPathManager() {
 		this.pathManager = new PathManager(this.parsedConfigurationMap);
 	}
 
 	/**
-	 * step 4.0 »ñÈ¡Ã¿Ò»¸öÄ£ĞÍµÄ¶¨Òå£¬ ´æÈëmodelMapÕâÒ»Êı¾İ½á¹¹ÖĞ
+	 * step 4.0 è·å–æ¯ä¸€ä¸ªæ¨¡å‹çš„å®šä¹‰ï¼Œ å­˜å…¥modelMapè¿™ä¸€æ•°æ®ç»“æ„ä¸­
 	 */
 	public void initModels() {
 		ArrayList<String> modelList = new ArrayList<String>();
@@ -139,8 +140,9 @@ public class TplGen {
 					p.load(is);
 
 					Map<String, String> propMap = new HashMap<String, String>();
-
-					Enumeration enum1 = p.propertyNames();// µÃµ½ÅäÖÃÎÄ¼şµÄÃû×Ö
+					
+					// å¾—åˆ°é…ç½®æ–‡ä»¶çš„åå­—
+					Enumeration enum1 = p.propertyNames();
 					System.out
 							.println("======================Start parsing model::"
 									+ modelName + "======================");
@@ -166,7 +168,7 @@ public class TplGen {
 	}
 
 	/**
-	 * step 4.1 ³õÊ¼»¯Ä£°å´úÂë£¬²¢´æÈë»º´æÖĞ
+	 * step 4.1 åˆå§‹åŒ–æ¨¡æ¿ä»£ç ï¼Œå¹¶å­˜å…¥ç¼“å­˜ä¸­
 	 * 
 	 * @return
 	 */
@@ -202,7 +204,7 @@ public class TplGen {
 	}
 
 	/**
-	 * step 4.2 ³õÊ¼»¯¹¹½¨Ä¿±êÎÄ¼ş¼Ğ£¬±£Ö¤ÄÜ½«Éú³ÉµÄÄ¿±ê±àÒë´úÂëÕıÈ·Ğ´ÈëÏàÓ¦Â·¾¶
+	 * step 4.2 åˆå§‹åŒ–æ„å»ºç›®æ ‡æ–‡ä»¶å¤¹ï¼Œä¿è¯èƒ½å°†ç”Ÿæˆçš„ç›®æ ‡ç¼–è¯‘ä»£ç æ­£ç¡®å†™å…¥ç›¸åº”è·¯å¾„
 	 * 
 	 * @return
 	 */
@@ -225,7 +227,7 @@ public class TplGen {
 	}
 
 	/**
-	 * step 4.3 ³õÊ¼»¯±àÒëÆ÷ÊµÀı
+	 * step 4.3 åˆå§‹åŒ–ç¼–è¯‘å™¨å®ä¾‹
 	 * 
 	 * @return
 	 */
@@ -234,7 +236,7 @@ public class TplGen {
 	}
 
 	/**
-	 * step 5.0 Ö´ĞĞ±àÒëÈÎÎñ£¬½«±àÒë½á¹ûĞ´Èë»º´æ
+	 * step 5.0 Ö´æ‰§è¡Œç¼–è¯‘ä»»åŠ¡ï¼Œå°†ç¼–è¯‘ç»“æœå†™å…¥ç¼“å­˜
 	 * 
 	 * @return
 	 */
@@ -261,7 +263,7 @@ public class TplGen {
 	}
 
 	/**
-	 * step 6 Ğ´Èë±¾µØÎÄ¼ş
+	 * step 6 å†™å…¥æœ¬åœ°æ–‡ä»¶
 	 * 
 	 * @return
 	 */
@@ -281,11 +283,11 @@ public class TplGen {
 	/**
 	 * 
 	 * @param model
-	 *            Êı¾İÄ£ĞÍÃû³Æ
+	 *            æ•°æ®æ¨¡å‹åç§°
 	 * @param tplName
-	 *            Ä£°åÃû³Æ
+	 *            æ¨¡æ¿åç§°
 	 * @param compiledTpl
-	 *            ±àÒëºóµÄÄ£°å×Ö·û´®
+	 *            ç¼–è¯‘åçš„æ¨¡æ¿å­—ç¬¦ä¸²
 	 */
 	public void write2DiskByDetail(String model, String tplName,
 			String compiledTpl) {
@@ -370,19 +372,19 @@ public class TplGen {
 
 
 	/**
-	 * TplGenÊµÀıÖ´ĞĞ´úÂëÉú³ÉÈÎÎñ ±àÒëºÍĞ´´ÅÅÌµÄ²½ÖèÒÔ¶àÏß³Ì¼ÓËÙ
+	 * TplGenå®ä¾‹æ‰§è¡Œä»£ç ç”Ÿæˆä»»åŠ¡ ç¼–è¯‘å’Œå†™ç£ç›˜çš„æ­¥éª¤ä»¥å¤šçº¿ç¨‹åŠ é€Ÿ
 	 */
 	public void exec() {
-		// ¶Á»ù´¡ÅäÖÃµÄpropertiesÎÄ¼ş
+		// è¯»åŸºç¡€é…ç½®çš„propertiesæ–‡ä»¶
 		this.readConfig();
 
-		// ½âÎö»ù´¡ÅäÖÃµÄproperties£¬ÒÔkey-valueĞÎÊ½´æ´¢
+		// è§£æåŸºç¡€é…ç½®çš„propertiesï¼Œä»¥key-valueå½¢å¼å­˜å‚¨
 		this.parseConfig();
 
-		// ³õÊ¼»¯Â·¾¶¹ÜÀíÆ÷
+		// åˆå§‹åŒ–è·¯å¾„ç®¡ç†å™¨
 		this.initPathManager();
 
-		// ÕâÀïÊÇ³õÊ¼»¯µÄÊı¾İ¿â±íÃû
+		// è¿™é‡Œæ˜¯åˆå§‹åŒ–çš„æ•°æ®åº“è¡¨å
 		List<String> tables = new ArrayList<String>();
 		tables.add("user");
 		tables.add("role");
@@ -395,21 +397,21 @@ public class TplGen {
 		this.initFolders();
 		this.initTplCompiler();
 
-		// ¸ù¾İÊı¾İmodels±àÒëÄ£°å
+		// æ ¹æ®æ•°æ®modelsç¼–è¯‘æ¨¡æ¿
 		this.execCompileTask();
 
-		// Ğ´±¾µØ´ÅÅÌ
+		// å†™æœ¬åœ°ç£ç›˜
 		this.write2Disk();
 
 	};
 
 	/**
-	 * ¶ÁÈ¡Ô¶¶ËMySQL±í£¬²¢³õÊ¼»¯Êı¾İÄ£ĞÍ
+	 * è¯»å–è¿œç«¯MySQLè¡¨ï¼Œå¹¶åˆå§‹åŒ–æ•°æ®æ¨¡å‹
 	 * 
 	 * @param schema
-	 *            Êı¾İ¿â
+	 *            æ•°æ®åº“
 	 * @param tableNames
-	 *            ÊµÌåÀà±íÃûÁĞ±í
+	 *            å®ä½“ç±»è¡¨ååˆ—è¡¨
 	 */
 	public void initModelsFromMySQL(String schema,
 			List<String> tableNames) {
@@ -418,15 +420,15 @@ public class TplGen {
 		Map<String, String> tempMap = Common.getDBTypeMap();
 		
 		
-		// ±£´æÔ­±íÖĞ¸÷×Ö¶ÎjdbcTypeÓ³ÉäµÄ×Öµä
+		// ä¿å­˜åŸè¡¨ä¸­å„å­—æ®µjdbcTypeæ˜ å°„çš„å­—å…¸
 		Map<String, Map<String, String>> jdbcTypeMap = new HashMap<String, Map<String,String>>();
 
-		MetaDataFetcher fetcher = new MetaDataFetcher("test", "root", "");
+		MetaDataFetcher fetcher = new MetaDataFetcher("test", "root", "testing");
 		Map<String, Map<String, String>> rawMap = fetcher.mapDBTable2Entities(
 				"test", tableNames);
 		Set<String> keys = rawMap.keySet();
 
-		// ±éÀú±í£¬ÒÔ¼°±í×Ö¶Î£¬ĞŞÕıÊôĞÔÃûÒÔ¼°ÏàÓ¦µÄjavaType
+		// éå†è¡¨ï¼Œä»¥åŠè¡¨å­—æ®µï¼Œä¿®æ­£å±æ€§åä»¥åŠç›¸åº”çš„javaType
 		for (String modelKey : keys) {
 			String fixedModelKey = Common.toCamelCase(modelKey);
 			fixedModelKey = Common.firstCharToUpperCase(fixedModelKey);
@@ -448,7 +450,7 @@ public class TplGen {
 				String currentProp = Common.toCamelCase(currentKey);
 				String columnType = currentMap.get(currentKey);
 				String fixedColumnType = columnType;
-				// °ÑÔ­×Ö¶ÎµÄjdbcType´æ´¢ÏÂÀ´
+				// æŠŠåŸå­—æ®µçš„jdbcTypeå­˜å‚¨ä¸‹æ¥
 				fixedColumnType = tempMap.get(columnType);
 				if (fixedColumnType != null) {
 					currentModelMap.put(currentProp, fixedColumnType);
@@ -471,9 +473,9 @@ public class TplGen {
 		 System.out.println("jdbcType ::::::" + jdbcTypeMap);
 	}
 
-	public static void main(String[] args) {
-		String setup = "E:\\Workspace\\Handson\\src\\org\\john\\bin\\setup.properties";
-		TplGen tplGen = new TplGen(setup);
+	public static void main(String[] args) throws IOException {
+		String setupFile = System.getProperty("user.dir") + "/src/org/john/bin/setup.properties";
+		TplGen tplGen = new TplGen(setupFile);
 		tplGen.exec();
 	}
 }
