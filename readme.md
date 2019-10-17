@@ -1,11 +1,13 @@
-#code generator for springMVC and mybatis based web project
+# code generator for springMVC and mybatis based web project
 
-##Usage
+## Usage
+
 1. enter src/org/john/bin
 2. enter class TplGen
 3. run the main function
 
-##Notes
+## Notes
+
 + the entry package is located on /src/org/john/bin/
 + modify the setup.properties to match project structure
 + in the demo case, we use test schema, which contains table user, role,
